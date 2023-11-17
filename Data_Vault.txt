@@ -1,0 +1,104 @@
+-- Хабы
+CREATE TABLE Hub_Supplier (
+    Hub_SupplierID INT AUTO_INCREMENT PRIMARY KEY,
+    SupplierID INT
+);
+
+CREATE TABLE Hub_Product (
+    Hub_ProductID INT AUTO_INCREMENT PRIMARY KEY,
+    ProductID INT
+);
+
+CREATE TABLE Hub_Kiosk (
+    Hub_KioskID INT AUTO_INCREMENT PRIMARY KEY,
+    KioskID INT
+);
+
+CREATE TABLE Hub_Order (
+    Hub_OrderID INT AUTO_INCREMENT PRIMARY KEY,
+    OrderID INT
+);
+
+CREATE TABLE Hub_OrderItem (
+    Hub_OrderItemID INT AUTO_INCREMENT PRIMARY KEY,
+    OrderItemID INT
+);
+
+-- Связи
+CREATE TABLE Link_Supplier_Order (
+    Link_Supplier_OrderID INT AUTO_INCREMENT PRIMARY KEY,
+    Hub_SupplierID INT,
+    Hub_OrderID INT,
+    FOREIGN KEY (Hub_SupplierID) REFERENCES Hub_Supplier(Hub_SupplierID),
+    FOREIGN KEY (Hub_OrderID) REFERENCES Hub_Order(Hub_OrderID)
+);
+
+CREATE TABLE Link_OrderItem_Product (
+    Link_OrderItem_ProductID INT AUTO_INCREMENT PRIMARY KEY,
+    Hub_OrderItemID INT,
+    Hub_ProductID INT,
+    FOREIGN KEY (Hub_OrderItemID) REFERENCES Hub_OrderItem(Hub_OrderItemID),
+    FOREIGN KEY (Hub_ProductID) REFERENCES Hub_Product(Hub_ProductID)
+);
+
+CREATE TABLE Link_Order_OrderItem (
+    Link_Order_OrderItemID INT AUTO_INCREMENT PRIMARY KEY,
+    Hub_OrderID INT,
+    Hub_OrderItemID INT,
+    FOREIGN KEY (Hub_OrderID) REFERENCES Hub_Order(Hub_OrderID),
+    FOREIGN KEY (Hub_OrderItemID) REFERENCES Hub_OrderItem(Hub_OrderItemID)
+);
+
+CREATE TABLE Link_Kiosk_Order (
+    Link_Kiosk_OrderID INT AUTO_INCREMENT PRIMARY KEY,
+    Hub_KioskID INT,
+    Hub_OrderID INT,
+    FOREIGN KEY (Hub_KioskID) REFERENCES Hub_Kiosk(Hub_KioskID),
+    FOREIGN KEY (Hub_OrderID) REFERENCES Hub_Order(Hub_OrderID)
+);
+
+-- Спутники
+CREATE TABLE Sat_Supplier (
+    Sat_SupplierID INT AUTO_INCREMENT PRIMARY KEY,
+    Hub_SupplierID INT,
+    SupplierName VARCHAR(255),
+    SupplierContact VARCHAR(255),
+    LoadDate DATETIME,
+    FOREIGN KEY (Hub_SupplierID) REFERENCES Hub_Supplier(Hub_SupplierID)
+);
+
+CREATE TABLE Sat_Product (
+    Sat_ProductID INT AUTO_INCREMENT PRIMARY KEY,
+    Hub_ProductID INT,
+    ProductName VARCHAR(255),
+    ProductDescription VARCHAR(255),
+    UnitPrice DECIMAL(10, 2),
+    LoadDate DATETIME,
+    FOREIGN KEY (Hub_ProductID) REFERENCES Hub_Product(Hub_ProductID)
+);
+
+CREATE TABLE Sat_Kiosk (
+    Sat_KioskID INT AUTO_INCREMENT PRIMARY KEY,
+    Hub_KioskID INT,
+    KioskName VARCHAR(255),
+    Location VARCHAR(255),
+    LoadDate DATETIME,
+    FOREIGN KEY (Hub_KioskID) REFERENCES Hub_Kiosk(Hub_KioskID)
+);
+
+CREATE TABLE Sat_Order (
+    Sat_OrderID INT AUTO_INCREMENT PRIMARY KEY,
+    Hub_OrderID INT,
+    OrderDate DATE,
+    LoadDate DATETIME,
+    FOREIGN KEY (Hub_OrderID) REFERENCES Hub_Order(Hub_OrderID)
+);
+
+CREATE TABLE Sat_OrderItem (
+    Sat_OrderItemID INT AUTO_INCREMENT PRIMARY KEY,
+    Hub_OrderItemID INT,
+    Quantity INT,
+    TotalPrice DECIMAL(10, 2),
+    LoadDate DATETIME,
+    FOREIGN KEY (Hub_OrderItemID) REFERENCES Hub_OrderItem(Hub_OrderItemID)
+);

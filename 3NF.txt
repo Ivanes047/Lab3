@@ -1,0 +1,44 @@
+-- Создание таблицы Поставщик
+CREATE TABLE Supplier (
+    SupplierID INT AUTO_INCREMENT PRIMARY KEY,
+    SupplierName VARCHAR(50),
+    ContactPerson VARCHAR(50),
+    ContactNumber VARCHAR(20)
+);
+
+-- Создание таблицы Товар
+CREATE TABLE Product (
+    ProductID INT AUTO_INCREMENT PRIMARY KEY,
+    ProductName VARCHAR(100),
+    Category VARCHAR(50),
+    UnitPrice DECIMAL(10, 2),
+    StockQuantity INT
+);
+
+-- Создание таблицы Киоск
+CREATE TABLE Kiosk (
+    KioskID INT AUTO_INCREMENT PRIMARY KEY,
+    Location VARCHAR(100)
+);
+
+-- Создание таблицы Заказ
+CREATE TABLE Ord (
+    OrdID INT AUTO_INCREMENT PRIMARY KEY,
+    KioskID INT,
+    SupplierID INT,
+    OrdDate DATE,
+    DeliveryDate DATE,
+    FOREIGN KEY (KioskID) REFERENCES Kiosk(KioskID),
+    FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID)
+);
+
+-- Создание таблицы Содержание заказа
+CREATE TABLE OrdItem (
+    OrdItemID INT AUTO_INCREMENT PRIMARY KEY,
+    OrdID INT,
+    ProductID INT,
+    Quantity INT,
+    TotalPrice DECIMAL(10, 2),
+    FOREIGN KEY (OrdID) REFERENCES Ord(OrdID),
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+);
